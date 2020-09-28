@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        Log.i("test", "button is clicked");
+
         if(!((Button)view).getText().toString().equals("")){
             return;
         }
@@ -89,10 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (!checkWinner()) {
             if(roundCount == 9){
                 playAgain();
-                Toast toast = Toast.makeText(this, "No Winner!", Toast.LENGTH_LONG);
-                ViewGroup group = (ViewGroup) toast.getView();
-                TextView messageTextView = (TextView) group.getChildAt(0);
-                messageTextView.setTextSize(30);
+                Toast toast = Toast.makeText(this, "No Winner!", Toast.LENGTH_SHORT);
                 toast.show();
             }
             else{
@@ -100,31 +98,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         } else {
             if(activePlayer) {
+
                 playerOneScoreCount++;
                 updatePlayerScore();
-
+                buttonAction(false);
                 Toast toast = Toast.makeText(this, "Player 1 Won!", Toast.LENGTH_LONG);
-                ViewGroup group = (ViewGroup) toast.getView();
-                TextView messageTextView = (TextView) group.getChildAt(0);
-                messageTextView.setTextSize(30);
                 toast.show();
-
                 final Handler handler = new Handler(Looper.getMainLooper());
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         playAgain();
+                        buttonAction(true);
                     }
                 }, 2000);
             }
             else{
+
                 playerTwoScoreCount++;
                 updatePlayerScore();
-
+                buttonAction(false);
                 Toast toast = Toast.makeText(this, "Player 2 Won!", Toast.LENGTH_LONG);
-                ViewGroup group = (ViewGroup) toast.getView();
-                TextView messageTextView = (TextView) group.getChildAt(0);
-                messageTextView.setTextSize(30);
                 toast.show();
 
                 final Handler handler = new Handler(Looper.getMainLooper());
@@ -132,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void run() {
                         playAgain();
+                        buttonAction(true);
                     }
                 }, 120000);
             }
@@ -186,5 +181,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             gameState[i] = 2;
             buttons[i].setText("");
         }
+    }
+
+    public void buttonAction(boolean action){
+        for(int i=0;i<buttons.length;i++)
+        buttons[i].setEnabled(action);
     }
 }
